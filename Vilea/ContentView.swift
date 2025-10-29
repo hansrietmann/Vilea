@@ -14,10 +14,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Tab 1", systemImage: "1.circle")
                 }
-            Text("Tab 2")
-                .tabItem {
-                    Label("Tab 2", systemImage: "2.circle")
-                }
+            
         }
     }
 }
