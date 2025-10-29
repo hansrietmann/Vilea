@@ -15,9 +15,6 @@ struct StationsView: View {
             }
             .navigationTitle("Charging stations")
         }
-        .tabItem {
-            Label("Tab 2", systemImage: "2.circle")
-        }
     }
 }
 
