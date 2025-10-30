@@ -20,6 +20,8 @@ struct SwissOpenDataStationsFetchResponse: Decodable {
             enum Availability: String, Decodable {
                 case Available
                 case OutOfService
+                case Occupied
+                case Unknown
             }
             let Availability: Availability
         }
