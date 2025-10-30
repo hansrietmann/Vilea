@@ -7,6 +7,7 @@
 
 
 import Foundation
+import CoreLocation
 
 final class SwissOpenDataService: StationsFetchService {
     private let domain: URL
@@ -20,7 +21,7 @@ final class SwissOpenDataService: StationsFetchService {
         self.networkingService = networkingService
     }
     
-    func stations(for locale: Locale) async throws -> [StationModel] {
+    func stations(for locale: Locale, at location: CLLocation) async throws -> [StationModel] {
         let defaultLanguage: String = "en"
         let supportedLanguages: Set<String> = ["de", "fr", "it", defaultLanguage]
         let usersLanguage = locale.language.languageCode?.identifier ?? defaultLanguage

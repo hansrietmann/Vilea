@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol StationsFetchService {
-    func stations(for locale: Locale) async throws -> [StationModel]
+    func stations(for locale: Locale, at location: CLLocation) async throws -> [StationModel]
 }
