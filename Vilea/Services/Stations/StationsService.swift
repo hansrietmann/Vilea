@@ -16,9 +16,12 @@ final class StationsService {
     @ObservationIgnored private var stationsTask: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
+    @ObservationIgnored private weak var locationService: LocationService?
     
-    init(fetchService: StationsFetchService) {
+    init(fetchService: StationsFetchService, locationService: LocationService) {
         self.fetchService = fetchService
+        self.locationService = locationService
+        observeUpdates(of: locationService)
     }
     
     func stations(for locale: Locale) {
@@ -32,12 +35,24 @@ final class StationsService {
             }
         }
     }
+    
+    private func observeUpdates(of locationService: LocationService) {
+        Task {
+            for await location in observableUpdatesStream(
+                on: locationService,
+                at: \.currentLocation
+            ) {
+                // received new location update
+            }
+        }
+    }
 }
 
 extension StationsService {
     static func makePreviewService() -> StationsService {
         let networking = URLSessionNetworkingService()
         let fetchService = SwissOpenDataService(networkingService: networking)
-        return StationsService(fetchService: fetchService)
+        let locationService = LocationService()
+        return StationsService(fetchService: fetchService, locationService: locationService)
     }
 }

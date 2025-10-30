@@ -9,11 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     @State var stationsService: StationsService
+    @State var locationService: LocationService
     
     init() {
         let networking = URLSessionNetworkingService()
         let fetchService = SwissOpenDataService(networkingService: networking)
-        self.stationsService = StationsService(fetchService: fetchService)
+        let locationService = LocationService()
+        self.stationsService = StationsService(
+            fetchService: fetchService,
+            locationService: locationService
+        )
+        self.locationService = locationService
     }
     
     var body: some View {
@@ -28,6 +34,7 @@ struct ContentView: View {
                 }
         }
         .environment(stationsService)
+        .environment(locationService)
     }
 }
 

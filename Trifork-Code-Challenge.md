@@ -43,8 +43,8 @@ Acceptance criteria:
 ### #3 [MUST] As a user I want to see all charging stations in the radius of 1km of my position on a list
 
 Acceptance criteria:
-* a second tab is available in the app, showing a list of charging stations
-* the list shall be sorted by "Power", descending (i.e. stations with highest charging power at the top)
+✅ a second tab is available in the app, showing a list of charging stations
+⏱️ the list shall be sorted by "Power", descending (i.e. stations with highest charging power at the top)
 * list entries shall display "id", "Power" and availability at a minimum
 
 
