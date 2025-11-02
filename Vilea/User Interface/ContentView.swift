@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
     @State var stationsService: StationsService
     @State var locationService: LocationService
+    @State var presentingList = true
+    @State var listPresentationDetent: PresentationDetent = .medium
     
     init() {
         let networking = URLSessionNetworkingService()
@@ -23,15 +26,42 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView {
-            Text("Tab 1")
-                .tabItem {
-                    Label("Tab 1", systemImage: "1.circle")
+        Map {
+            if let location = locationService.currentLocation {
+                Annotation("My position", coordinate: location.coordinate) {
+                    Circle()
+                        .frame(width: 18, height: 18)
+                        .overlay {
+                            Circle().stroke(.quinary, lineWidth: 0.5)
+                        }
+                        .foregroundStyle(.tint)
+                        .padding(4)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .overlay {
+                            Circle().stroke(.secondary, lineWidth: 0.5)
+                        }
+                        .shadow(radius: 16)
                 }
+            }
+        }
+        .mapFeatureSelectionDisabled { _ in true }
+        .mapStyle(
+            .standard(
+                elevation: .realistic,
+                emphasis: .muted,
+                pointsOfInterest: .excludingAll,
+                showsTraffic: false
+            )
+        )
+        .sheet(isPresented:  $presentingList) {
             StationsView()
-                .tabItem {
-                    Label("Stations list", systemImage: "2.circle")
-                }
+                .presentationDetents(
+                    [.height(80), .medium, .large],
+                    selection: $listPresentationDetent
+                )
+                .presentationBackgroundInteraction(.enabled)
+                .interactiveDismissDisabled()
         }
         .environment(stationsService)
         .environment(locationService)

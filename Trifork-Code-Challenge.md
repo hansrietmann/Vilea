@@ -30,9 +30,9 @@ Data about the location of charging points in Switzerland and live availability 
 ### #1 [SHOULD] As a user I want to see a map centered around my current position
 
 Acceptance criteria:
-* opening the app, a map is presented
-* the initial map position is the current user location
-* the map does not need to be scrollable
+✅ opening the app, a map is presented
+✅ the initial map position is the current user location
+✅ the map does not need to be scrollable
 
 ### #2 [SHOULD] As a user I want to see all charging stations in the radius of 1km of my position on the map
 
