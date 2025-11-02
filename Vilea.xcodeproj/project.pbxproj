@@ -6,14 +6,35 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1C7ACC412EB29406007AAFED /* Trifork-Code-Challenge.md in Resources */ = {isa = PBXBuildFile; fileRef = 1C7ACC402EB29406007AAFED /* Trifork-Code-Challenge.md */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1C7ACC3B2EB29361007AAFED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C7ACC1B2EB25758007AAFED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1C7ACC222EB25758007AAFED;
+			remoteInfo = Vilea;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1C7ACC232EB25758007AAFED /* Vilea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vilea.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C7ACC372EB29361007AAFED /* VileaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VileaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C7ACC402EB29406007AAFED /* Trifork-Code-Challenge.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Trifork-Code-Challenge.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1C7ACC252EB25758007AAFED /* Vilea */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Vilea;
+			sourceTree = "<group>";
+		};
+		1C7ACC382EB29361007AAFED /* VileaTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VileaTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,13 +47,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1C7ACC342EB29361007AAFED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1C7ACC1A2EB25758007AAFED = {
 			isa = PBXGroup;
 			children = (
+				1C7ACC402EB29406007AAFED /* Trifork-Code-Challenge.md */,
 				1C7ACC252EB25758007AAFED /* Vilea */,
+				1C7ACC382EB29361007AAFED /* VileaTests */,
 				1C7ACC242EB25758007AAFED /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				1C7ACC232EB25758007AAFED /* Vilea.app */,
+				1C7ACC372EB29361007AAFED /* VileaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +101,29 @@
 			productReference = 1C7ACC232EB25758007AAFED /* Vilea.app */;
 			productType = "com.apple.product-type.application";
 		};
+		1C7ACC362EB29361007AAFED /* VileaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C7ACC3D2EB29361007AAFED /* Build configuration list for PBXNativeTarget "VileaTests" */;
+			buildPhases = (
+				1C7ACC332EB29361007AAFED /* Sources */,
+				1C7ACC342EB29361007AAFED /* Frameworks */,
+				1C7ACC352EB29361007AAFED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1C7ACC3C2EB29361007AAFED /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1C7ACC382EB29361007AAFED /* VileaTests */,
+			);
+			name = VileaTests;
+			packageProductDependencies = (
+			);
+			productName = VileaTests;
+			productReference = 1C7ACC372EB29361007AAFED /* VileaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +136,11 @@
 				TargetAttributes = {
 					1C7ACC222EB25758007AAFED = {
 						CreatedOnToolsVersion = 26.0;
+					};
+					1C7ACC362EB29361007AAFED = {
+						CreatedOnToolsVersion = 26.0;
+						LastSwiftMigration = 2600;
+						TestTargetID = 1C7ACC222EB25758007AAFED;
 					};
 				};
 			};
@@ -100,12 +159,21 @@
 			projectRoot = "";
 			targets = (
 				1C7ACC222EB25758007AAFED /* Vilea */,
+				1C7ACC362EB29361007AAFED /* VileaTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1C7ACC212EB25758007AAFED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C7ACC412EB29406007AAFED /* Trifork-Code-Challenge.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C7ACC352EB29361007AAFED /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +190,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1C7ACC332EB29361007AAFED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1C7ACC3C2EB29361007AAFED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1C7ACC222EB25758007AAFED /* Vilea */;
+			targetProxy = 1C7ACC3B2EB29361007AAFED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1C7ACC2C2EB25759007AAFED /* Debug */ = {
@@ -256,6 +339,8 @@
 				DEVELOPMENT_TEAM = MEBSQ9RYLY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = location_always_request_description;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = location_when_in_use_request_description;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +373,8 @@
 				DEVELOPMENT_TEAM = MEBSQ9RYLY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = location_always_request_description;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = location_when_in_use_request_description;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -310,6 +397,55 @@
 			};
 			name = Release;
 		};
+		1C7ACC3E2EB29361007AAFED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MEBSQ9RYLY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = privacy_location_always_description;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = privacy_location_when_in_use_description;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.trifork.VileaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vilea.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vilea";
+			};
+			name = Debug;
+		};
+		1C7ACC3F2EB29361007AAFED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MEBSQ9RYLY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = privacy_location_always_description;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = privacy_location_when_in_use_description;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.trifork.VileaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vilea.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vilea";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -327,6 +463,15 @@
 			buildConfigurations = (
 				1C7ACC2F2EB25759007AAFED /* Debug */,
 				1C7ACC302EB25759007AAFED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1C7ACC3D2EB29361007AAFED /* Build configuration list for PBXNativeTarget "VileaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C7ACC3E2EB29361007AAFED /* Debug */,
+				1C7ACC3F2EB29361007AAFED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
