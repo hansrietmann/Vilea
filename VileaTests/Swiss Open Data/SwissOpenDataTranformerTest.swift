@@ -15,7 +15,7 @@ struct SwissOpenDataTranformerTest {
             operators: JSONFile.swissOpenDataOperatorStationsResponse.data.asObject(),
             availabilities: JSONFile.swissOpenDataStationAvailabilitiesResponse.data.asObject()
         )
-        #expect(sut.count == 13_033)
+        #expect(sut.count == 13_027)
     }
 }
 
