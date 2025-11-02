@@ -13,7 +13,7 @@ struct StationsViewList: View {
     var body: some View {
         List {
             ForEach(stations) { station in
-                Text(station.id)
+                StationRow(station: station)
             }
         }
     }

@@ -45,7 +45,7 @@ Acceptance criteria:
 Acceptance criteria:
 ✅ a second tab is available in the app, showing a list of charging stations
 ✅ the list shall be sorted by "Power", descending (i.e. stations with highest charging power at the top)
-⏱️ list entries shall display "id", "Power" and availability at a minimum
+✅ list entries shall display "id", "Power" and availability at a minimum
 
 
 ### #4 [SHOULD] As a user I want to see a different icon for the charging station based on its availability
@@ -58,7 +58,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 * charging station availability is updated automatically
-* a 'last update' field shows in the UI when the last data update took place
+⏱️ a 'last update' field shows in the UI when the last data update took place
 * validate against map.geo.admin.ch (see below)
 
 
