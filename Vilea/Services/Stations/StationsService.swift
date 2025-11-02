@@ -41,21 +41,7 @@ final class StationsService {
     }
     
     func loadStations() {
-        loadStations(at: locationService.currentLocation)
-    }
-    
-    private func observeUpdates(of locationService: LocationServiceProvider) {
-        Task {
-            for await location in observableUpdatesStream(
-                on: locationService,
-                at: \.currentLocation
-            ) {
-                loadStations(at: location)
-            }
-        }
-    }
-    
-    private func loadStations(at location: CLLocation?) {
+        guard let location = locationService.currentLocation else { return }
         stationsTask = Task {
             loadingStations = true
             defer { loadingStations = false }
@@ -67,6 +53,17 @@ final class StationsService {
             } catch let error {
                 guard !Task.isCancelled else { return }
                 stationsResult = .failure(error)
+            }
+        }
+    }
+    
+    private func observeUpdates(of locationService: LocationServiceProvider) {
+        Task {
+            for await _ in observableUpdatesStream(
+                on: locationService,
+                at: \.currentLocation
+            ) {
+                loadStations()
             }
         }
     }

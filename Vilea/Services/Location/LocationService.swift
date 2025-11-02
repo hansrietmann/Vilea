@@ -10,14 +10,8 @@ import CoreLocation
 @MainActor
 @Observable
 final class LocationService: LocationServiceProvider {
-    var currentLocation: CLLocation? {
-        guard let currentRegion else { return nil }
-        return CLLocation(
-            latitude: currentRegion.center.latitude,
-            longitude: currentRegion.center.longitude
-        )
-    }
-    private var currentRegion: CLCircularRegion?
+    private(set) var currentLocation: CLLocation?
+    @ObservationIgnored private var currentRegion: CLCircularRegion?
     
     init() {
         observeLocationUpdates()
@@ -34,6 +28,7 @@ final class LocationService: LocationServiceProvider {
                     if let location = update.location {
                         // Unsure to update location only when the user moves
                         guard currentRegion?.contains(location.coordinate) != true else { continue }
+                        currentLocation = location
                         currentRegion = CLCircularRegion(
                             center: location.coordinate,
                             radius: 50,
