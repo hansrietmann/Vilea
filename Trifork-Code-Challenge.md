@@ -57,9 +57,9 @@ Acceptance criteria:
 ### #5 [MUST] As a user I want to see availability in real time, without the need to reload data manually
 
 Acceptance criteria:
-⏱️ charging station availability is updated automatically
+✅ charging station availability is updated automatically
 ✅ a 'last update' field shows in the UI when the last data update took place
-* validate against map.geo.admin.ch (see below)
+⏱️ validate against map.geo.admin.ch (see below)
 
 
 ### #6 [MUST] As a user I want to be able to see the last loaded list of charging stations when I am offline

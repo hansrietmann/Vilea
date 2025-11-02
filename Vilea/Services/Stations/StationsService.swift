@@ -30,6 +30,7 @@ final class StationsService {
     @ObservationIgnored private var stationsTask: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
+    @ObservationIgnored private var timer: Timer? { didSet { oldValue?.invalidate() } }
     
     init(fetchService: ChargingStationsProvider, locationService: LocationServiceProvider) {
         let radiusFilter = StationsInRadiusService(stationsProvider: fetchService)
@@ -62,9 +63,18 @@ final class StationsService {
                 stationsResult = try await
                     .success(fetchService.chargingStations(arround: location))
                 lastUpdate = Date()
+                prepareAutoUpdate()
             } catch let error {
                 guard !Task.isCancelled else { return }
                 stationsResult = .failure(error)
+            }
+        }
+    }
+    
+    private func prepareAutoUpdate() {
+        timer = Timer.scheduledTimer(withTimeInterval: 2 * 60, repeats: false) { _ in
+            Task { @MainActor [weak self] in
+                self?.loadStations()
             }
         }
     }
