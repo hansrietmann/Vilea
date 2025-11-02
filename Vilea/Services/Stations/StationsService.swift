@@ -11,10 +11,22 @@ import CoreLocation
 @MainActor
 @Observable
 final class StationsService {
+    var lastUpdateTimeDetails: String {
+        guard let lastUpdate else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.doesRelativeDateFormatting = true
+        formatter.timeStyle = .short
+        let stringDate = formatter.string(from: lastUpdate)
+        return "Last update: \(stringDate)"
+    }
     private(set) var stationsResult: Result<[ChargingStation], Error>?
     private(set) var loadingStations: Bool = false
+    
     private let fetchService: ChargingStationsProvider
     private let locationService: LocationServiceProvider
+    
+    private var lastUpdate: Date?
     @ObservationIgnored private var stationsTask: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
@@ -49,7 +61,9 @@ final class StationsService {
             do {
                 stationsResult = try await
                     .success(fetchService.chargingStations(arround: location))
-            } catch {
+                lastUpdate = Date()
+            } catch let error {
+                guard !Task.isCancelled else { return }
                 stationsResult = .failure(error)
             }
         }
