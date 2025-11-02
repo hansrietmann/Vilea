@@ -59,15 +59,15 @@ Acceptance criteria:
 Acceptance criteria:
 ✅ charging station availability is updated automatically
 ✅ a 'last update' field shows in the UI when the last data update took place
-⏱️ validate against map.geo.admin.ch (see below)
+✅ validate against map.geo.admin.ch (see below)
 
 
 ### #6 [MUST] As a user I want to be able to see the last loaded list of charging stations when I am offline
 
 Acceptance criteria:
-* open the app with internet connectivity available synchronizes the available charging stations around me
-* disabling internet connectivity, terminating the app and re-opening it results in the list to be available
-* the map does not need to be cached/stored. In offline mode only the list is available
+✅ open the app with internet connectivity available synchronizes the available charging stations around me
+✅ disabling internet connectivity, terminating the app and re-opening it results in the list to be available
+⏱️ the map does not need to be cached/stored. In offline mode only the list is available
 
 
 * https://map.geo.admin.ch/?lang=en&topic=energie&bgLayer=ch.swisstopo.pixelkarte-grau&zoom=0&layers=ch.bfe.ladestellen-elektromobilitaet&catalogNodes=2419,2420,2427,2480,2429,2431,2434,2436,2767,2441,3206 can be used to validate the app. It shows all charging stations in switzerland with their current state
