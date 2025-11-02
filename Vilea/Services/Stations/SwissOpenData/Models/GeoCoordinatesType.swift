@@ -28,9 +28,12 @@ struct GeoCoordinatesType: Decodable {
         if let googleCoordinates = try container.decodeIfPresent(String.self, forKey: .google)?
             .components(separatedBy: .whitespaces),
            googleCoordinates.count == 2 {
-            
-            coordinates = if let latitude = Double(googleCoordinates[1]),
-                             let longitude = Double(googleCoordinates[0]) {
+            let latitudeValidRange: ClosedRange<Double> = -90...90
+            let longitudeValidRange: ClosedRange<Double> = -180...180
+            coordinates = if let latitude = Double(googleCoordinates[0]),
+                             latitudeValidRange.contains(latitude),
+                             let longitude = Double(googleCoordinates[1]),
+                             longitudeValidRange.contains(longitude) {
                 (longitude: longitude, latitude: latitude)
             } else {
                 nil

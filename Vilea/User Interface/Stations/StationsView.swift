@@ -26,6 +26,7 @@ struct StationsView: View {
                 }
             }
             .navigationTitle("Charging stations")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationSubtitle(stationsService.lastUpdateTimeDetails)
         }
         .task(loadStations)

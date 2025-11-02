@@ -26,7 +26,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        Map {
+        Map(interactionModes: [.pan, .zoom]) {
             if let location = locationService.currentLocation {
                 Annotation("My position", coordinate: location.coordinate) {
                     Circle()
@@ -44,6 +44,40 @@ struct ContentView: View {
                         .shadow(radius: 16)
                 }
             }
+            if case .success(let stations) = stationsService.stationsResult {
+                ForEach(stations) { station in
+                    Marker(
+                        station.id,
+                        systemImage: "powerplug.portrait",
+                        coordinate: station.coordinates
+                    )
+                    .tint(makeColor(for: station))
+                }
+            }
+        }
+        .overlay(alignment: .topLeading) {
+            VStack(alignment: .leading, spacing: 12) {
+                if case let .success(stations) = stationsService.stationsResult,
+                   let station = stations.first {
+                    VStack(alignment: .leading) {
+                        Text("First station coordinates")
+                            .font(.headline)
+                        Text(
+                            "latitude: \(station.coordinates.latitude)\nlongitude\(station.coordinates.longitude)"
+                        )
+                    }
+                }
+                if let location = locationService.currentLocation {
+                    VStack(alignment: .leading) {
+                        Text("User coordinates")
+                            .font(.headline)
+                        Text(
+                            "latitude: \(location.coordinate.latitude)\nlongitude\(location.coordinate.longitude)"
+                        )
+                    }
+                }
+            }
+            .safeAreaPadding()
         }
         .mapFeatureSelectionDisabled { _ in true }
         .mapStyle(
@@ -65,6 +99,11 @@ struct ContentView: View {
         }
         .environment(stationsService)
         .environment(locationService)
+    }
+    
+    private func makeColor(for station: ChargingStation) -> Color {
+        if station.spots.contains(where: { $0.availability == .Available }) { return .green }
+        return .red
     }
 }
 

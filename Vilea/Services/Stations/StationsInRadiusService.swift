@@ -16,13 +16,13 @@ final class StationsInRadiusService: ChargingStationsProvider {
     }
     
     func chargingStations(arround location: CLLocation?) async throws -> [ChargingStation] {
-        let stations = try await stationsProvider.chargingStations(arround: location)
-        guard let location else { return stations }
+        guard let location else { return [] }
         let region = CLCircularRegion(
             center: location.coordinate,
             radius: 1_000,
             identifier: UUID().uuidString
         )
+        let stations = try await stationsProvider.chargingStations(arround: location)
         return stations.filter { region.contains($0.coordinates) }
     }
 }
