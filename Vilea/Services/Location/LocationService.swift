@@ -10,7 +10,14 @@ import CoreLocation
 @MainActor
 @Observable
 final class LocationService: LocationServiceProvider {
-    private(set) var currentLocation: CLLocation?
+    var currentLocation: CLLocation? {
+        guard let currentRegion else { return nil }
+        return CLLocation(
+            latitude: currentRegion.center.latitude,
+            longitude: currentRegion.center.longitude
+        )
+    }
+    private var currentRegion: CLCircularRegion?
     
     init() {
         observeLocationUpdates()
@@ -25,7 +32,13 @@ final class LocationService: LocationServiceProvider {
                 // Iterate over the stream and handle incoming updates.
                 for try await update in stream {
                     if let location = update.location {
-                        currentLocation = location
+                        // Unsure to update location only when the user moves
+                        guard currentRegion?.contains(location.coordinate) != true else { continue }
+                        currentRegion = CLCircularRegion(
+                            center: location.coordinate,
+                            radius: 50,
+                            identifier: UUID().uuidString
+                        )
                     }
                 }
             } catch {
