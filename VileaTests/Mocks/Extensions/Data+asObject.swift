@@ -12,3 +12,4 @@ extension Data {
         try JSONDecoder().decode(T.self, from: self)
     }
 }
+

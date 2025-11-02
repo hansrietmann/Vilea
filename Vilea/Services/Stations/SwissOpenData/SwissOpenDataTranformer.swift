@@ -9,19 +9,39 @@
 import CoreLocation
 
 enum SwissOpenDataTranformer {
-    static func stationsList(
-        response stationsFetchResponse: SwissOpenDataStationsFetchResponse
-    ) -> [StationModel] {
-        stationsFetchResponse.features.compactMap { feature in
-            let coordinates = feature.geometry.coordinates
-            guard coordinates.count == 2 else { return nil }
-            return StationModel(
-                id: feature.id,
-                coordinate: CLLocationCoordinate2D(
-                    latitude: coordinates[0],
-                    longitude: coordinates[1]
-                )
-            )
+    static func chargingStations(
+        operators: OperatorStationsResponse,
+        availabilities: StationAvailabilitiesResponse
+    ) -> [ChargingStation] {
+        operators.EVSEData.flatMap { stationOperator in
+            stationOperator.EVSEDataRecord
+                .reduce([String: ChargingStation]()) { result, record in
+                    guard let coordinates = record.GeoCoordinates.coordinates else { return result }
+                    var result = result
+                
+                    let stationID = record.ChargingStationId ?? record.EvseID
+                    var spots = result[stationID]?.spots ?? []
+                    let newSpot = ChargingSpot(
+                        id: record.EvseID,
+                        availability: .Unknown,
+                        power: record.ChargingFacilities.last?.power?.value
+                    )
+                    spots.append(newSpot)
+                
+                    result[stationID] = ChargingStation(
+                        id: stationID,
+                        operatorID: stationOperator.OperatorID,
+                        operatorName: stationOperator.OperatorName,
+                        coordinates: CLLocationCoordinate2D(
+                            latitude: coordinates.latitude,
+                            longitude: coordinates.longitude
+                        ),
+                        spots: spots
+                    )
+                
+                    return result
+                }
+                .map { $0.value }
         }
     }
 }

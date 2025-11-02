@@ -8,31 +8,78 @@
 @testable import Vilea
 import CoreLocation
 
-extension Array where Element == StationModel {
+extension Array where Element == ChargingStation {
     static let expectedStationsFromSwissOpenDataFetchResponse: Self = [
-        StationModel(
+        ChargingStation(
             id: "CH*SWI*E10382",
-            coordinate: CLLocationCoordinate2D(latitude: 7.94404536, longitude: 47.37545935)
+            operatorID: "",
+            operatorName: "",
+            coordinates: CLLocationCoordinate2D(latitude: 47.37545935, longitude: 7.94404536),
+            spots: [
+                ChargingSpot(id: "", availability: .Unknown, power: nil)
+            ]
         ),
-        StationModel(
+        ChargingStation(
             id: "CH*SWI*E10662",
-            coordinate: CLLocationCoordinate2D(latitude: 7.401496, longitude: 47.188216)
+            operatorID: "",
+            operatorName: "",
+            coordinates: CLLocationCoordinate2D(latitude: 47.188216, longitude: 7.401496),
+            spots: [
+                ChargingSpot(id: "", availability: .Unknown, power: nil)
+            ]
         ),
-        StationModel(
+        ChargingStation(
             id: "e86b4e30-3498-11f0-9cef-42010aa400b8",
-            coordinate: CLLocationCoordinate2D(latitude: 8.57952, longitude: 47.454803)
+            operatorID: "",
+            operatorName: "",
+            coordinates: CLLocationCoordinate2D(latitude: 47.454803, longitude: 8.57952),
+            spots: [
+                ChargingSpot(id: "", availability: .Unknown, power: nil)
+            ]
         ),
-        StationModel(
+        ChargingStation(
             id: "CH*SWI*E168194",
-            coordinate: CLLocationCoordinate2D(latitude: 8.752624, longitude: 47.388118)
+            operatorID: "",
+            operatorName: "",
+            coordinates: CLLocationCoordinate2D(latitude: 47.388118, longitude: 8.752624),
+            spots: [
+                ChargingSpot(id: "", availability: .Unknown, power: nil)
+            ]
         ),
-        StationModel(
+        ChargingStation(
             id: "CH*SWI*E1123",
-            coordinate: CLLocationCoordinate2D(latitude: 8.643419, longitude: 47.72261)
+            operatorID: "",
+            operatorName: "",
+            coordinates: CLLocationCoordinate2D(latitude: 47.72261, longitude: 8.643419),
+            spots: [
+                ChargingSpot(id: "", availability: .Unknown, power: nil)
+            ]
         ),
-        StationModel(
+        ChargingStation(
             id: "f5860f18-5b19-11f0-b0b2-42010aa400b8",
-            coordinate: CLLocationCoordinate2D(latitude: 8.250345, longitude: 47.556752)
+            operatorID: "",
+            operatorName: "",
+            coordinates: CLLocationCoordinate2D(latitude: 47.556752, longitude: 8.250345),
+            spots: [
+                ChargingSpot(id: "", availability: .Unknown, power: nil)
+            ]
         ),
+        .zurichStation,
     ]
+    static let expectedStationsNearZurich: Self = [.zurichStation]
+    static func makeZurichChargingStations() -> Self {
+        CLLocation.makeZurichLocations().map { location in
+            ChargingStation(
+                id: UUID().uuidString,
+                operatorID: UUID().uuidString,
+                operatorName: UUID().uuidString,
+                coordinates: location.coordinate,
+                spots: [
+                    ChargingSpot(id: UUID().uuidString, availability: .Available, power: 0),
+                    ChargingSpot(id: UUID().uuidString, availability: .Unknown, power: 0),
+                    ChargingSpot(id: UUID().uuidString, availability: .Reserved, power: 0),
+                ]
+            )
+        }
+    }
 }

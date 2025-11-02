@@ -9,7 +9,7 @@ import CoreLocation
 
 @MainActor
 @Observable
-final class LocationService {
+final class LocationService: LocationServiceProvider {
     private(set) var currentLocation: CLLocation?
     
     init() {

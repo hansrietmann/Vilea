@@ -9,43 +9,31 @@
 import Foundation
 import CoreLocation
 
-final class SwissOpenDataService: StationsFetchService {
-    private let domain: URL
-    private let networkingService: NetworkingService
-    
-    init(networkingService: NetworkingService) {
+final class SwissOpenDataService: ChargingStationsProvider {
+    static let domain: URL = {
         guard let domain = URL(string: "https://data.geo.admin.ch") else {
             fatalError("Invalid domain ULR provided for SwissOpenDataAPI")
         }
-        self.domain = domain
-        self.networkingService = networkingService
+        return domain
+    }()
+    private let operatorStationsRequest: OperatorStationsProvider
+    private let stationAvailabilitiesRequest: StationAvailabilitiesProvider
+    
+    init(networkingService: NetworkingService) {
+        operatorStationsRequest = OperatorStationsRequest(networkingService: networkingService)
+        stationAvailabilitiesRequest = StationAvailabilitiesRequest(
+            networkingService: networkingService
+        )
     }
     
-    func stations(for locale: Locale, at location: CLLocation) async throws -> [StationModel] {
-        let defaultLanguage: String = "en"
-        let supportedLanguages: Set<String> = ["de", "fr", "it", defaultLanguage]
-        let usersLanguage = locale.language.languageCode?.identifier ?? defaultLanguage
-        let preferedLanguage = if supportedLanguages.contains(usersLanguage) {
-            usersLanguage
-        } else {
-            defaultLanguage
-        }
-        
-        let url = domain
-            .appending(path: "ch.bfe.ladestellen-elektromobilitaet")
-            .appending(path: "data")
-            .appending(path: "ch.bfe.ladestellen-elektromobilitaet_\(preferedLanguage).json")
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        let (data, response) = try await networkingService.fetchData(for: request)
-        guard response.statusCode == 200 else { throw URLError(.badServerResponse) }
-        return try SwissOpenDataTranformer.stationsList(
-            response: JSONDecoder().decode(
-                SwissOpenDataStationsFetchResponse.self,
-                from: data
-            )
+    func chargingStations(arround location: CLLocation?) async throws -> [ChargingStation] {
+        async let operatorStationsTask = operatorStationsRequest.operators()
+        async let stationAvailabilitiesTask = stationAvailabilitiesRequest.availabilities()
+        let (operators, availabilities) = try await (
+            operatorStationsTask,
+            stationAvailabilitiesTask
         )
+        return SwissOpenDataTranformer
+            .chargingStations(operators: operators, availabilities: availabilities)
     }
 }

@@ -20,7 +20,11 @@ struct JSONFile {
         data = try Data(contentsOf: url)
     }
     
-    static var swissOpenDataStationsResponse: JSONFile {
-        try! JSONFile(filename: "ch.bfe.ladestellen-elektromobilitaet_en")
+    static var swissOpenDataOperatorStationsResponse: JSONFile {
+        try! JSONFile(filename: "OperatorStationsResponse")
+    }
+    
+    static var swissOpenDataStationAvailabilitiesResponse: JSONFile {
+        try! JSONFile(filename: "StationAvailabilitiesResponse")
     }
 }

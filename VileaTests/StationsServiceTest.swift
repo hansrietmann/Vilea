@@ -11,20 +11,25 @@ import Foundation
 
 @MainActor
 struct StationsServiceTest {
-    @Test(arguments: Locale.mockedArray())
-    func testFetchStations(_ locale: Locale) async throws {
+    @Test func testFetchStations() async throws {
+        let zurichStations = [ChargingStation].makeZurichChargingStations()
         let fetchService = SwissOpenDataServiceMock()
-        fetchService.stationsResult = .success(.expectedStationsFromSwissOpenDataFetchResponse)
-        let sut = StationsService(fetchService: fetchService)
+        fetchService.chargingStationsResult = .success(zurichStations)
+        let locationService = LocationServiceMock()
+        locationService.currentLocation = .makeZurichLocation()
+        
+        let sut = StationsService(fetchService: fetchService, locationService: locationService)
         
         #expect(sut.loadingStations == false)
         #expect(sut.stationsResult == nil)
         
-        sut.stations(for: locale)
-        
+        sut.loadStations()
         await waitForChanges(on: sut, key: \.loadingStations)
+        
         #expect(sut.loadingStations == false)
-        #expect(try sut.stationsResult?.get() == .expectedStationsFromSwissOpenDataFetchResponse)
+        let stations = try sut.stationsResult?.get()
+        let expectedStations = [zurichStations.first!]
+        #expect(stations == expectedStations)
     }
     
     private func waitForChanges<T, U>(on parent: T, key keyPath: KeyPath<T, U>) async {

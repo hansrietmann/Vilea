@@ -7,11 +7,12 @@
 
 @testable import Vilea
 import Foundation
+import CoreLocation
 
-final class SwissOpenDataServiceMock: StationsFetchService {
-    var stationsResult: Result<[StationModel], Error> = .failure(.emptyMockResult)
+final class SwissOpenDataServiceMock: ChargingStationsProvider {
+    var chargingStationsResult: Result<[ChargingStation], Error> = .failure(.emptyMockResult)
     
-    func stations(for locale: Locale) async throws -> [StationModel] {
-        try stationsResult.get()
+    func chargingStations(arround location: CLLocation?) async throws -> [ChargingStation] {
+        try chargingStationsResult.get()
     }
 }

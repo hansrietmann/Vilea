@@ -11,27 +11,27 @@ import CoreLocation
 @MainActor
 @Observable
 final class StationsService {
-    private(set) var stationsResult: Result<[StationModel], Error>?
+    private(set) var stationsResult: Result<[ChargingStation], Error>?
     private(set) var loadingStations: Bool = false
-    private let fetchService: StationsFetchService
-    private var locale: Locale?
+    private let fetchService: ChargingStationsProvider
+    private let locationService: LocationServiceProvider
     @ObservationIgnored private var stationsTask: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
-    @ObservationIgnored private weak var locationService: LocationService?
     
-    init(fetchService: StationsFetchService, locationService: LocationService) {
-        self.fetchService = StationsInRadiusService(stationsProvider: fetchService)
+    init(fetchService: ChargingStationsProvider, locationService: LocationServiceProvider) {
+        let radiusFilter = StationsInRadiusService(stationsProvider: fetchService)
+        let powerSorter = PowerSortedStationsService(stationsProvider: radiusFilter)
+        self.fetchService = powerSorter
         self.locationService = locationService
         observeUpdates(of: locationService)
     }
     
-    func stations(for locale: Locale) {
-        self.locale = locale
-        loadStations(at: locationService?.currentLocation)
+    func loadStations() {
+        loadStations(at: locationService.currentLocation)
     }
     
-    private func observeUpdates(of locationService: LocationService) {
+    private func observeUpdates(of locationService: LocationServiceProvider) {
         Task {
             for await location in observableUpdatesStream(
                 on: locationService,
@@ -43,13 +43,12 @@ final class StationsService {
     }
     
     private func loadStations(at location: CLLocation?) {
-        guard let locale, let location else { return }
         stationsTask = Task {
             loadingStations = true
             defer { loadingStations = false }
             do {
                 stationsResult = try await
-                    .success(fetchService.stations(for: locale, at: location))
+                    .success(fetchService.chargingStations(arround: location))
             } catch {
                 stationsResult = .failure(error)
             }

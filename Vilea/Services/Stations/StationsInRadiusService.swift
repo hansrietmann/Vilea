@@ -8,21 +8,21 @@
 import Foundation
 import CoreLocation
 
-final class StationsInRadiusService: StationsFetchService {
-    private let stationsProvider: StationsFetchService
+final class StationsInRadiusService: ChargingStationsProvider {
+    private let stationsProvider: ChargingStationsProvider
     
-    init(stationsProvider: StationsFetchService) {
+    init(stationsProvider: ChargingStationsProvider) {
         self.stationsProvider = stationsProvider
     }
     
-    func stations(for locale: Locale, at location: CLLocation) async throws -> [StationModel] {
+    func chargingStations(arround location: CLLocation?) async throws -> [ChargingStation] {
+        let stations = try await stationsProvider.chargingStations(arround: location)
+        guard let location else { return stations }
         let region = CLCircularRegion(
             center: location.coordinate,
             radius: 1_000,
             identifier: UUID().uuidString
         )
-        return try await stationsProvider
-            .stations(for: locale, at: location)
-            .filter { region.contains($0.coordinate) }
+        return stations.filter { region.contains($0.coordinates) }
     }
 }
