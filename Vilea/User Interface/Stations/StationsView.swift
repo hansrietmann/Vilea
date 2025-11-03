@@ -11,6 +11,8 @@ struct StationsView: View {
     @Environment(StationsService.self) var stationsService
     @Environment(\.locale) var locale
     
+    let detent: PresentationDetent
+    
     var body: some View {
         NavigationStack {
             Group {
@@ -18,11 +20,16 @@ struct StationsView: View {
                     switch result {
                     case .success(let stations):
                         StationsViewList(stations: stations)
+                            .transition(.blurReplace)
                     case .failure(let failure):
                         StationsViewError(error: failure, retry: loadStations)
+                            .transition(.blurReplace)
                     }
                 } else {
-                    ProgressView()
+                    if detent == .medium || detent == .large {
+                        ProgressView()
+                            .transition(.blurReplace)
+                    }
                 }
             }
             .navigationTitle("stations_view_navigation_title")
@@ -30,6 +37,8 @@ struct StationsView: View {
             .navigationSubtitle(stationsService.lastUpdateTimeDetails(locale: locale))
         }
         .task(loadStations)
+        .animation(.default, value: detent)
+        .animation(.default, value: stationsService.loadingStations)
     }
     
     func loadStations() {
@@ -38,6 +47,6 @@ struct StationsView: View {
 }
 
 #Preview {
-    StationsView()
+    StationsView(detent: .large)
         .environment(StationsService.makePreviewService())
 }

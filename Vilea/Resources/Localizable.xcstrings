@@ -145,6 +145,22 @@
     },
     "User coordinates" : {
       "shouldTranslate" : false
+    },
+    "user_position_annotation_label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My position"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ma position"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

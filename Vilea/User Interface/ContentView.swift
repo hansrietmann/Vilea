@@ -13,12 +13,15 @@ struct ContentView: View {
     @Environment(StationsService.self) var stationsService
     
     @State var presentingList = true
-    @State var listPresentationDetent: PresentationDetent = .medium
+    @State var listPresentationDetent: PresentationDetent = .height(80)
     
     var body: some View {
         Map(interactionModes: [.pan, .zoom]) {
             if let location = locationService.currentLocation {
-                Annotation("my_position", coordinate: location.coordinate) {
+                Annotation(
+                    LocalizedStringResource(stringLiteral: "user_position_annotation_label"),
+                    coordinate: location.coordinate
+                ) {
                     Circle()
                         .frame(width: 18, height: 18)
                         .overlay {
@@ -32,6 +35,7 @@ struct ContentView: View {
                             Circle().stroke(.secondary, lineWidth: 0.5)
                         }
                         .shadow(radius: 16)
+                        .transition(.blurReplace)
                 }
             }
             if case .success(let stations) = stationsService.stationsResult {
@@ -45,6 +49,7 @@ struct ContentView: View {
                 }
             }
         }
+        .animation(.default, value: locationService.currentLocation == nil)
 #if DEBUG
         .overlay(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 12) {
@@ -81,7 +86,7 @@ struct ContentView: View {
             )
         )
         .sheet(isPresented:  $presentingList) {
-            StationsView()
+            StationsView(detent: listPresentationDetent)
                 .presentationDetents(
                     [.height(80), .medium, .large],
                     selection: $listPresentationDetent
