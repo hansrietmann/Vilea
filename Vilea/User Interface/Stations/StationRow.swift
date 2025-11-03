@@ -18,15 +18,28 @@ struct StationRow: View {
         VStack(alignment: .leading) {
             Text(station.operatorName)
                 .font(.headline)
-            Text("\(availableSpots) spot\(availableSpots > 1 ? "(s)": "") available")
+            Text(makeSubheadline())
                 .font(.subheadline)
-            Text(
-                "Max. power: \(station.spots.filter { $0.availability != .Occupied }.compactMap { $0.power }.max() ?? 0) kW"
-            )
-            Text("Identifier: \(station.id)")
+            Text(makeBody())
+            Text("station_row_identifier_\(station.id)")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+    }
+    
+    private func makeSubheadline() -> LocalizedStringResource {
+        guard availableSpots > 1 else {
+            return "station_row_available_spots_singular_\(availableSpots)"
+        }
+        return "station_row_available_spots_plural_\(availableSpots)"
+    }
+    
+    private func makeBody() -> LocalizedStringResource {
+        let maxAvailablePower = station.spots
+            .filter { $0.availability != .Occupied }
+            .compactMap { $0.power }
+            .max() ?? 0
+        return "station_row_max_available_power_\(maxAvailablePower)"
     }
 }
 

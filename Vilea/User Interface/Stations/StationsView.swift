@@ -25,9 +25,9 @@ struct StationsView: View {
                     ProgressView()
                 }
             }
-            .navigationTitle("Charging stations")
+            .navigationTitle("stations_view_navigation_title")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationSubtitle(stationsService.lastUpdateTimeDetails)
+            .navigationSubtitle(stationsService.lastUpdateTimeDetails(locale: locale))
         }
         .task(loadStations)
     }

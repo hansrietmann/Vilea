@@ -9,26 +9,16 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    @State var stationsService: StationsService
-    @State var locationService: LocationService
+    @Environment(LocationService.self) var locationService
+    @Environment(StationsService.self) var stationsService
+    
     @State var presentingList = true
     @State var listPresentationDetent: PresentationDetent = .medium
-    
-    init() {
-        let networking = URLSessionNetworkingService()
-        let fetchService = SwissOpenDataService(networkingService: networking)
-        let locationService = LocationService()
-        self.stationsService = StationsService(
-            fetchService: fetchService,
-            locationService: locationService
-        )
-        self.locationService = locationService
-    }
     
     var body: some View {
         Map(interactionModes: [.pan, .zoom]) {
             if let location = locationService.currentLocation {
-                Annotation("My position", coordinate: location.coordinate) {
+                Annotation("my_position", coordinate: location.coordinate) {
                     Circle()
                         .frame(width: 18, height: 18)
                         .overlay {
@@ -55,6 +45,7 @@ struct ContentView: View {
                 }
             }
         }
+#if DEBUG
         .overlay(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 12) {
                 if case let .success(stations) = stationsService.stationsResult,
@@ -79,6 +70,7 @@ struct ContentView: View {
             }
             .safeAreaPadding()
         }
+#endif
         .mapFeatureSelectionDisabled { _ in true }
         .mapStyle(
             .standard(
@@ -97,8 +89,6 @@ struct ContentView: View {
                 .presentationBackgroundInteraction(.enabled)
                 .interactiveDismissDisabled()
         }
-        .environment(stationsService)
-        .environment(locationService)
     }
     
     private func makeColor(for station: ChargingStation) -> Color {
@@ -108,5 +98,12 @@ struct ContentView: View {
 }
 
 #Preview {
+    @Previewable @State var location = LocationService()
+    @Previewable @State var stations = StationsService(
+        fetchService: SwissOpenDataService(networkingService: URLSessionNetworkingService()),
+        locationService: LocationService()
+    )
     ContentView()
+        .environment(location)
+        .environment(stations)
 }
