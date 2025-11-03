@@ -11,15 +11,6 @@ import CoreLocation
 @MainActor
 @Observable
 final class StationsService {
-    var lastUpdateTimeDetails: String {
-        guard let lastUpdate else { return "" }
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.doesRelativeDateFormatting = true
-        formatter.timeStyle = .short
-        let stringDate = formatter.string(from: lastUpdate)
-        return "Last update: \(stringDate)"
-    }
     private(set) var stationsResult: Result<[ChargingStation], Error>?
     private(set) var loadingStations: Bool = false
     
@@ -55,6 +46,17 @@ final class StationsService {
                 stationsResult = .failure(error)
             }
         }
+    }
+    
+    func lastUpdateTimeDetails(locale: Locale) -> LocalizedStringResource {
+        guard let lastUpdate else { return "stations_view_navigation_subtitle_empty" }
+        let formatter = DateFormatter()
+        formatter.locale = locale
+        formatter.dateStyle = .short
+        formatter.doesRelativeDateFormatting = true
+        formatter.timeStyle = .short
+        let stringDate = formatter.string(from: lastUpdate)
+        return "stations_view_navigation_subtitle_\(stringDate)"
     }
     
     private func observeUpdates(of locationService: LocationServiceProvider) {

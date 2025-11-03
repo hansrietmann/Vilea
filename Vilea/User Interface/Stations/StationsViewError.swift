@@ -25,7 +25,7 @@ struct StationsViewError: View {
             Button {
                 retry()
             } label: {
-                Label("Retry", systemImage: "arrow.clockwise")
+                Label("retry_button_title", systemImage: "arrow.clockwise")
             }
         }
         .safeAreaPadding(Constants.errorViewSafeAreaPadding)
