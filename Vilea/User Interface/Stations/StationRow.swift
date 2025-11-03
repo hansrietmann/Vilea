@@ -10,9 +10,6 @@ import SwiftUI
 
 struct StationRow: View {
     let station: ChargingStation
-    var availableSpots: Int {
-        station.spots.filter { $0.availability != .Occupied }.count
-    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,6 +22,18 @@ struct StationRow: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+        .accessibilityLabel(makeAccessibilityLabel())
+    }
+    
+    private var availableSpots: Int {
+        station.spots.filter { $0.availability != .Occupied }.count
+    }
+    
+    private var maxAvailablePower: Int {
+        station.spots
+            .filter { $0.availability != .Occupied }
+            .compactMap { $0.power }
+            .max() ?? 0
     }
     
     private func makeSubheadline() -> LocalizedStringResource {
@@ -35,11 +44,11 @@ struct StationRow: View {
     }
     
     private func makeBody() -> LocalizedStringResource {
-        let maxAvailablePower = station.spots
-            .filter { $0.availability != .Occupied }
-            .compactMap { $0.power }
-            .max() ?? 0
-        return "station_row_max_available_power_\(maxAvailablePower)"
+        "station_row_max_available_power_\(maxAvailablePower)"
+    }
+    
+    private func makeAccessibilityLabel() -> LocalizedStringResource {
+        "station_row_accessibility_label_\(station.operatorName)\(availableSpots)\(maxAvailablePower)\(station.id)"
     }
 }
 

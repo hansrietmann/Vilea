@@ -36,6 +36,7 @@ struct ContentView: View {
                         }
                         .shadow(radius: 16)
                         .transition(.blurReplace)
+                        .accessibilityHidden(true)
                 }
             }
             if case .success(let stations) = stationsService.stationsResult {
@@ -74,6 +75,7 @@ struct ContentView: View {
                 }
             }
             .safeAreaPadding()
+            .accessibilityHidden(true)
         }
 #endif
         .mapFeatureSelectionDisabled { _ in true }
